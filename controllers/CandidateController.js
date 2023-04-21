@@ -1,10 +1,15 @@
-const express = require('express');
 const Candidate = require('../models/Candidate');
 
-const router = express.Router();
+const getAllCandidates = async (req, res) => {
+    try {
+        const candidates = await Candidate.find();
+        res.status(200).json(candidates);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
-// POST - create a new candidate
-router.post('/', async (req, res) => {
+const createCandidate = async (req, res) => {
     try {
         const newCandidate = new Candidate(req.body);
         await newCandidate.save();
@@ -12,20 +17,9 @@ router.post('/', async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-});
+};
 
-// GET - Retrieve all candidates
-router.get('/', async (req, res) => {
-    try {
-        const candidates = await Candidate.find();
-        res.status(200).json(candidates);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-// GET - Retrieve a candidate by ID
-router.get('/:id', async (req, res) => {
+const getCandidate = async (req, res) => {
     try {
         const candidate = await Candidate.findById(req.params.id);
         if (!candidate) {
@@ -35,10 +29,9 @@ router.get('/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-});
+};
 
-// PUT - Update a candidate by ID
-router.put('/:id', async (req, res) => {
+const updateCandidate = async (req, res) => {
     try {
         const updatedCandidate = await Candidate.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedCandidate) {
@@ -48,10 +41,9 @@ router.put('/:id', async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-});
+};
 
-// DELETE - Delete a candidate by ID
-router.delete('/:id', async (req, res) => {
+const deleteCandidate = async (req, res) => {
     try {
         const deleteCandidate = await Candidate.findByIdAndDelete(req.params.id);
         if (!deleteCandidate) {
@@ -61,11 +53,12 @@ router.delete('/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-});
+};
 
-
-
-
-
-// Export the router
-module.exports = router;
+module.exports = {
+    getAllCandidates,
+    createCandidate,
+    getCandidate,
+    updateCandidate,
+    deleteCandidate,
+};

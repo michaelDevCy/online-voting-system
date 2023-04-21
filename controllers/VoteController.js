@@ -1,10 +1,15 @@
-const express = require('express');
 const Vote = require('../models/Vote');
 
-const router = express.Router();
+const getAllVotes = async (req, res) => {
+    try {
+        const votes = await Vote.find();
+        res.status(200).json(votes);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
-// POST - create a new vote
-router.post('/', async (req, res) => {
+const createVote = async (req, res) => {
     try {
         const newVote = new Vote(req.body);
         await newVote.save();
@@ -12,20 +17,9 @@ router.post('/', async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-});
+};
 
-// GET - Retrieve all votes
-router.get('/', async (req, res) => {
-    try {
-        const votes = await Vote.find();
-        res.status(200).json(votes);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-// GET - Retrieve a vote by ID
-router.get('/:id', async (req, res) => {
+const getVote = async (req, res) => {
     try {
         const vote = await Vote.findById(req.params.id);
         if (!vote) {
@@ -35,10 +29,9 @@ router.get('/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-});
+};
 
-// PUT - Update a vote by ID
-router.put('/:id', async (req, res) => {
+const updateVote = async (req, res) => {
     try {
         const updatedVote = await Vote.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedVote) {
@@ -48,10 +41,9 @@ router.put('/:id', async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-});
+};
 
-// DELETE - Delete a vote by ID
-router.delete('/:id', async (req, res) => {
+const deleteVote = async (req, res) => {
     try {
         const deleteVote = await Vote.findByIdAndDelete(req.params.id);
         if (!deleteVote) {
@@ -61,7 +53,12 @@ router.delete('/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-});
+};
 
-// Export the router
-module.exports = router;
+module.exports = {
+    getAllVotes,
+    createVote,
+    getVote,
+    updateVote,
+    deleteVote,
+};

@@ -1,12 +1,15 @@
-// Import required packages and models
-const express = require('express');
 const User = require('../models/User');
 
-// Create a new router
-const router = express.Router();
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find();
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
-// POST - create a new user
-router.post('/', async (req, res) => {
+const createUser = async (req, res) => {
     try {
         const newUser = new User(req.body);
         await newUser.save();
@@ -14,20 +17,9 @@ router.post('/', async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-});
+};
 
-// GET - Retrieve all users
-router.get('/', async (req, res) => {
-    try {
-        const users = await User.find();
-        res.status(200).json(users);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-// GET - Retrieve a user by ID
-router.get('/:id', async (req, res) => {
+const getUser = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
         if (!user) {
@@ -37,10 +29,9 @@ router.get('/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-});
+};
 
-// PUT - Update a user by ID
-router.put('/:id', async (req, res) => {
+const updateUser = async (req, res) => {
     try {
         const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedUser) {
@@ -50,10 +41,9 @@ router.put('/:id', async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-});
+};
 
-// DELETE - Delete a user by ID
-router.delete('/:id', async (req, res) => {
+const deleteUser = async (req, res) => {
     try {
         const deleteUser = await User.findByIdAndDelete(req.params.id);
         if (!deleteUser) {
@@ -63,7 +53,12 @@ router.delete('/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-});
+};
 
-// Export the router
-module.exports = router;
+module.exports = {
+    getAllUsers,
+    createUser,
+    getUser,
+    updateUser,
+    deleteUser,
+};
