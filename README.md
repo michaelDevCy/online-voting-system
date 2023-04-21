@@ -34,7 +34,7 @@ A web-based voting system for digital media readers, allowing users to express t
 
     node index.js
 
-The Server will now be running on `http://localhost:3000`.
+The Server will now be running on `http://localhost:5000`.
 
 ## API Endpoints
 
