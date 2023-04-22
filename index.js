@@ -3,6 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const serveStatic = require('serve-static'); // Import the serve-static package
+const path = require('path'); // Import the path package
 
 // Initialize the Express app
 const app = express();
@@ -37,13 +39,16 @@ app.use('/api/campaigns', campaignRoutes);
 app.use('/api/candidates', candidateRoutes);
 app.use('/api/votes', voteRoutes);
 
+// Serve static files from the React build folder
+app.use(serveStatic(path.join(__dirname, 'build')));
+
+// Set up a catch-all route to serve the React app
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 // Start the server
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
-});
-
-
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
 });
