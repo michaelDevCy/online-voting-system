@@ -9,13 +9,15 @@ A web-based voting system for digital media readers, allowing users to express t
 - Real-time vote counting
 - Campaign and candidate management (CRUD operations)
 - Compliance with HK privacy regulations
+- Responsive frontend built with React
 
 ## Prerequisites
 
 - Node.js
 - MongoDB
 
-## Installation
+## Backend Installation
+
 1. Clone the repository:
 
     git clone https://github.com/Mikeyvon/online-voting-system.git
@@ -36,6 +38,22 @@ A web-based voting system for digital media readers, allowing users to express t
 
 The Server will now be running on `http://localhost:5000`.
 
+## Frontend Installation
+
+1. Change to the frontend project directory:
+
+    cd voting-system-frontend
+
+2. Install the required packages:
+
+    npm install
+
+3. Run the development server:
+
+    npm start
+
+The frontend application should now be running at `http://localhost:3000` in your browser.
+
 ## API Endpoints
 
 - `/api/users`: User registration and authentication
@@ -46,6 +64,4 @@ The Server will now be running on `http://localhost:5000`.
 ## License
 
 This project is released under the MIT License.
-
-
 
