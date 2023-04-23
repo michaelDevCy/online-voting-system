@@ -1,23 +1,33 @@
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Homepage from './components/Homepage';
+import Login from './components/Login';
+import Register from './components/Register';
+import CampaignList from './components/CampaignList';
+import CampaignDetails from './components/CampaignDetails';
+import CandidateList from './components/CandidateList';
+import CandidateDetails from './components/CandidateDetails';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/campaigns" element={<CampaignList />} />
+          <Route path="/campaign/:id" element={<CampaignDetails />} />
+          <Route path="/candidates" element={<CandidateList />} />
+          <Route path="/candidate/:id" element={<CandidateDetails />} />
+          {/* Add any additional routes here */}
+        </Routes>
+        <Footer />
+      </Router>
     </div>
   );
 }
